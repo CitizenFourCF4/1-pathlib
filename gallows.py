@@ -10,3 +10,4 @@ d.touch()
 d.write_text('Hi, im a text in file!')
 ## выводим содержимое строки на экран
 print(d.read_text())
+
