@@ -22,15 +22,27 @@ def command_line_parsing():
     input_text = arguments.text
     output_file_path = arguments.file_path
 
-    if str(output_file_path) == 'data\\results.txt':
-        (root_dir_path / 'data').mkdir(exist_ok=True)
-
     return input_text, output_file_path
+
+
+# parsing the path and creating folders if the current directory does not exist
+def folders_creation(output_file_path):
+    parts_of_file_path = list(output_file_path.parts)
+    for i in range(len(parts_of_file_path)):
+        parts_of_file_path[i] = Path(parts_of_file_path[i])
+    current_path = parts_of_file_path[0]
+    for i in range(1, len(parts_of_file_path) - 1):
+        current_path = current_path / parts_of_file_path[i]
+        if not (current_path.is_dir()):
+            current_path.mkdir()
 
 
 def main():
     input_text, output_file_path = command_line_parsing()
-
+    
+    if not output_file_path.parent.exists():
+        folders_creation(output_file_path)
+        
     # get file's absolute path
     file_abs_path = (root_dir_path / 'gallows_2.py').absolute()
     print(f'{file_abs_path = }')
