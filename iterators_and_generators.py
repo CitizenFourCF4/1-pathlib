@@ -3,11 +3,12 @@
 from argparse import ArgumentParser
 from pathlib import Path
 import random
-import string
+from string import ascii_letters
+import functools
 
 root_dir_path = Path()
 
-signs = string.ascii_letters
+signs = ascii_letters
 
 
 def single_line_generator(words_amount, letters_amount):
@@ -16,24 +17,20 @@ def single_line_generator(words_amount, letters_amount):
 
 
 def multi_line_generator(words_amount, letters_amount):
-    for _ in range(words_amount):
+    counter = 0
+    while True:
         word = ''.join(random.choice(signs) for _ in range(letters_amount))
         yield word
+        counter += 1
+        if counter == words_amount:
+            break
 
 
-def using_multi_line_generator(words_amount, letters_amount):
-    sp = []
-    for num in multi_line_generator(words_amount, letters_amount):
-        sp.append(num)
-    return sp
+generator_with_condition = functools.partial(multi_line_generator, 10, 5)
 
 
-def create_custom_string_using_for(iterable_object):
-    return ' '.join(item[1] for item in enumerate(iterable_object))
-
-
-def create_custom_string_using_map(iterable_object):
-    return ' '.join(map(str, iterable_object))
+def create_custom_string(iterable_object):
+    return ' '.join(item for item in iterable_object)
 
 
 def command_line_parsing():
@@ -44,7 +41,7 @@ def command_line_parsing():
     parser.add_argument(
         '--text',
         type=str,
-        default=create_custom_string_using_for(single_line_generator(2, 4)),
+        default=create_custom_string(random.choice([single_line_generator(5, 2), generator_with_condition()])),
         help='The text to be written to the file'
     )
     parser.add_argument(
