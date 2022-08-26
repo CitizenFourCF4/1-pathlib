@@ -30,7 +30,7 @@ def create_custom_string(iterable_object):
 def command_line_parsing():
     parser = ArgumentParser(
         description='Write text to a file at the given path',
-        usage='python gallows_2.py [--help] [--text=TEXT] [--file_path=FILE_PATH]'
+        usage='python main.py [--help] [--text=TEXT] [--file_path=FILE_PATH]'
     )
     parser.add_argument(
         '--text',
