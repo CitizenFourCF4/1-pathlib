@@ -1,16 +1,15 @@
 from argparse import ArgumentParser
-from functools import partial
 from pathlib import Path
 from random import choice
 from string import ascii_letters
 
 
-def single_line_generator(words_amount, letters_amount):
+def generate_words_via_single_line(words_amount: int, letters_amount: int) -> list[str, str, ..., str]:
     generator = [(''.join(choice(ascii_letters) for _ in range(letters_amount))) for _ in range(words_amount)]
     return generator
 
 
-def multi_line_generator(words_amount, letters_amount):
+def generate_words_via_multi_line(words_amount: int, letters_amount: int):
     counter = 0
     while True:
         word = ''.join(choice(ascii_letters) for _ in range(letters_amount))
@@ -20,22 +19,20 @@ def multi_line_generator(words_amount, letters_amount):
             break
 
 
-generator_with_condition = partial(multi_line_generator, 10, 5)
-
-
-def create_custom_string(iterable_object):
+def create_custom_string(iterable_object) -> str:
     return ' '.join(item for item in iterable_object)
 
 
-def command_line_parsing():
+def parsing_of_command_line() -> tuple[str, Path]:
     parser = ArgumentParser(
         description='Write text to a file at the given path',
-        usage='python main.py [--help] [--text=TEXT] [--file_path=FILE_PATH]'
+        usage='python gallows_2.py [--help] [--text=TEXT] [--file_path=FILE_PATH]'
     )
     parser.add_argument(
         '--text',
         type=str,
-        default=create_custom_string(choice([single_line_generator(5, 2), generator_with_condition()])),
+        default=create_custom_string(choice([generate_words_via_single_line(5, 2),
+                                             generate_words_via_multi_line(10, 5)])),
         help='The text to be written to the file'
     )
     parser.add_argument(
