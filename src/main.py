@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from functions import *
+from functions import parsing_of_command_line
 
 
 def main():
-    input_text, output_file_path = command_line_parsing()
+    input_text, output_file_path = parsing_of_command_line()
 
     # creating folders if the current directory does not exist
     output_file_path.parent.mkdir(exist_ok=True, parents=True)
