@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 
-from functions import parsing_of_command_line
+from functions import parse_command_line_args
+from functions import set_of_logger
+from functions import check_for_user_input
 
 
 def main():
+    set_of_logger()
+
     input_text, output_file_path = parse_command_line_args()
 
+    check_for_user_input()
     # creating folders if the current directory does not exist
     output_file_path.parent.mkdir(exist_ok=True, parents=True)
     # create a file and write a text to it
