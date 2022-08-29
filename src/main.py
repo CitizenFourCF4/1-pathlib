@@ -4,7 +4,7 @@ from functions import parsing_of_command_line
 
 
 def main():
-    input_text, output_file_path = parsing_of_command_line()
+    input_text, output_file_path = parse_command_line_args()
 
     # creating folders if the current directory does not exist
     output_file_path.parent.mkdir(exist_ok=True, parents=True)
