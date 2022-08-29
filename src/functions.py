@@ -4,7 +4,7 @@ from random import choice
 from string import ascii_letters
 
 
-def generate_words_via_single_line(words_amount: int, letters_amount: int) -> list[str, str, ..., str]:
+def generate_words_via_single_line(words_amount: int, letters_amount: int) -> list[str]:
     generator = [(''.join(choice(ascii_letters) for _ in range(letters_amount))) for _ in range(words_amount)]
     return generator
 
@@ -23,7 +23,7 @@ def create_custom_string(iterable_object) -> str:
     return ' '.join(item for item in iterable_object)
 
 
-def parsing_of_command_line() -> tuple[str, Path]:
+def parse_command_line_args() -> tuple[str, Path]:
     parser = ArgumentParser(
         description='Write text to a file at the given path',
         usage='python gallows_2.py [--help] [--text=TEXT] [--file_path=FILE_PATH]'
