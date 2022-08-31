@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-from functions import parse_command_line_args
-from functions import set_of_logger
-from functions import check_for_user_input
+from functions import check_for_user_input, parse_command_line_args, set_of_logger
 
 
 def main():
