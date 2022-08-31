@@ -8,37 +8,32 @@ from sys import argv, stdout
 
 def set_of_logger():
     logger.remove()
-    logger.add('./logs/debug.log', format='{time} {level} {message}', level='DEBUG')
+    logger.add('./logs/debug.log', format='{time} {function} {line} {level} {message}', level='DEBUG')
     logger.add(stdout, format='{time} {level} {message}', level='INFO')
 
 
 def generate_words_via_single_line(words_amount: int, letters_amount: int) -> list[str]:
-    logger.debug('launched generate_words_via_single_line()')
     generator = [(''.join(choice(ascii_letters) for _ in range(letters_amount))) for _ in range(words_amount)]
-    logger.debug('generate_words_via_single_line() successfully complained')
+    logger.debug(f'{generator = }')
     return generator
 
 
 def generate_words_via_multi_line(words_amount: int, letters_amount: int):
-    logger.debug('launched generate_words_via_multi_line()')
     counter = 0
     while True:
         word = ''.join(choice(ascii_letters) for _ in range(letters_amount))
         yield word
+        logger.debug(f'{word = }')
         counter += 1
         if counter == words_amount:
-            logger.debug('generate_words_via_multi_line() successfully complained')
             break
 
 
 def create_custom_string(iterable_object) -> str:
-    logger.debug('launched create_custom_string()')
-    logger.debug('create_custom_string() successfully complained')
     return ' '.join(item for item in iterable_object)
 
 
 def parse_command_line_args() -> tuple[str, Path]:
-    logger.debug('launched parse_command_line_args()')
     parser = ArgumentParser(
         description='Write text to a file at the given path',
         usage='python gallows_2.py [--help] [--text=TEXT] [--file_path=FILE_PATH]'
@@ -59,7 +54,8 @@ def parse_command_line_args() -> tuple[str, Path]:
     arguments = parser.parse_args()
     input_text = arguments.text
     output_file_path = arguments.file_path
-    logger.debug('parse_command_line_args() successfully complained')
+    logger.debug(f'{input_text = }')
+    logger.debug(f'{output_file_path = }')
     return input_text, output_file_path
 
 
