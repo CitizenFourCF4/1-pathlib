@@ -1,11 +1,20 @@
 from argparse import ArgumentParser
+from loguru import logger
 from pathlib import Path
 from random import choice
 from string import ascii_letters
+from sys import argv, stdout
+
+
+def set_of_logger():
+    logger.remove()
+    logger.add('./logs/debug.log', format='{time} {function} {line} {level} {message}', level='DEBUG')
+    logger.add(stdout, format='{time} {level} {message}', level='INFO')
 
 
 def generate_words_via_single_line(words_amount: int, letters_amount: int) -> list[str]:
     generator = [(''.join(choice(ascii_letters) for _ in range(letters_amount))) for _ in range(words_amount)]
+    logger.debug(f'{generator = }')
     return generator
 
 
@@ -14,6 +23,7 @@ def generate_words_via_multi_line(words_amount: int, letters_amount: int):
     while True:
         word = ''.join(choice(ascii_letters) for _ in range(letters_amount))
         yield word
+        logger.debug(f'{word = }')
         counter += 1
         if counter == words_amount:
             break
@@ -44,5 +54,22 @@ def parse_command_line_args() -> tuple[str, Path]:
     arguments = parser.parse_args()
     input_text = arguments.text
     output_file_path = arguments.file_path
-
+    logger.debug(f'{input_text = }')
+    logger.debug(f'{output_file_path = }')
     return input_text, output_file_path
+
+
+def check_for_user_input():
+    if len(argv) == 2:
+        if argv[1].startswith("--text="):
+            logger.info("User enter text")
+            logger.info("User did not enter file path. Default value used")
+        else:
+            logger.info("User did not enter text. Default value used")
+            logger.info("User enter file path.")
+    elif len(argv) == 3:
+        logger.info("User enter text")
+        logger.info("User enter file path.")
+    else:
+        logger.info("User did not enter text. Default value used")
+        logger.info("User did not enter file path. Default value used")
